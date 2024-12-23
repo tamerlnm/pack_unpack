@@ -9,6 +9,9 @@ import (
 )
 
 func main() {
+	if len(os.Args)!=4{
+		log.Fatal("Wrong data inputs")
+	}
 	var arg string
 	input := flag.Bool("input", false, "input argument")
 	daemon := flag.Bool("daemon", false, "daemon argument")
@@ -38,8 +41,10 @@ func main() {
 
 func unpackValue(arg string) string {
 	result := make([]rune, 0)
+	inputRunes := []rune(arg)
 	for i := 0; i < len(arg); i++ {
-		if arg[i] >= 48 && arg[i] <= 57 {
+		current := inputRunes[i]
+		if isDigit(current) {
 			n, err := strconv.Atoi(string(arg[i]))
 			if err != nil {
 				log.Fatal("error to convert string to integer")
@@ -48,7 +53,11 @@ func unpackValue(arg string) string {
 				result = result[:len(result)-1]
 			} else {
 				for n > 1 {
-					result = append(result, rune(arg[i-1]))
+					if i>1 && arg[i-2] == 92 {
+						result = append(result, rune(92), rune(arg[i-1]))
+					} else {
+						result = append(result, rune(arg[i-1]))
+					}
 					n--
 				}
 			}
@@ -101,4 +110,8 @@ func isValidArgument(s string) bool {
 		return false
 	}
 	return true
+}
+
+func isDigit(r rune) bool {
+	return r >= '0' && r <= '9'
 }

@@ -8,6 +8,8 @@ go build -o coder .
 
 ./coder --unpack --daemon
 
+./coder --unpack --input "d\n5abc"
+
 ./coder --pack --input "aaaabccddddde"
 
 ./coder --pack --daemon

@@ -11,6 +11,7 @@ func TestUnpackValue(t *testing.T) {
 		{"abcd", "abcd"},
 		{"aaa0b", "aab"},
 		{"adas4lopa5", "adasssslopaaaaa"},
+		{"d\n5abc", "d\n\n\n\n\nabc"},
 	}
 	for _, test := range tests {
 		result := unpackValue(test.input)
